@@ -27,13 +27,15 @@ export const createUser = async(request,response,next)=>{
 export const verifyAccount = async(request,response,next)=>{
     try{
         let{email}=request.body;
-        let result = await User.updateOne({email},{$set:{isverfied:true}});
-        console.log("User verified status:", result.isVerfied); 
+        let result = await User.updateOne({email},{$set:{isVerified:true}});
+        console.log("User verified status:", result.modifiedCount > 0 ? "Verified" : "Not Verified");
+
+        // console.log("User verified status:", result.Verified); 
         return response.status(200).json({message:"Account is verfied successfully"});
 
     }
     catch(err){
-        return response.status(500).json({message:"Internal server errror"});
+        return response.status(500).json({message:"Internal server errror",err});
 
     }
 }
@@ -41,7 +43,7 @@ export const verifyAccount = async(request,response,next)=>{
         try{
             let{email,password} = request.body;
 
-            let user =  await User.findone({email});
+            let user =  await User.findOne({email});
             if(!user.isverfied)
                 return response.status(401).json({error:"Unauthorized user | email not found"});
             let status = await bcrypt.compare(password,user.password);
