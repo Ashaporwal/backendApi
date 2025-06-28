@@ -18,7 +18,7 @@ const userSchema = new mongooes.Schema({
         imageName:String,
         address:String
     },
-    isVerfied:{
+    isVerified:{
         type:Boolean,
         default:false
     }

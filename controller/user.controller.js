@@ -44,7 +44,7 @@ export const verifyAccount = async(request,response,next)=>{
             let{email,password} = request.body;
 
             let user =  await User.findOne({email});
-            if(!user.isverfied)
+            if(!user.isVerfied)
                 return response.status(401).json({error:"Unauthorized user | email not found"});
             let status = await bcrypt.compare(password,user.password);
 
